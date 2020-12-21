@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   });
 
 app.get("/user", (req, res) => {
-  res.render("user", { title: "Profile", userProfile: { nickname: "Auth0" } });
+  res.render("user", { title: "Profile", userProfile: { nickname: "James", title: "Solutions Engineer", company: "GitHub" } });
 });
 
 app.get('*', function(req, res){
