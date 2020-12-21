@@ -30,6 +30,14 @@ app.get("/", (req, res) => {
     res.render("index", { title: "Home" });
   });
 
+app.get("/user", (req, res) => {
+  res.render("user", { title: "Profile", userProfile: { nickname: "Auth0" } });
+});
+
+app.get('*', function(req, res){
+    res.render(path.join(__dirname + '/views/404.pug'));
+});
+
 /**
  * Server Activation
  */
