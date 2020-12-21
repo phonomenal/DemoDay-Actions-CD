@@ -88,7 +88,7 @@ a {
 
   overflow: hidden;
   background: white;
-  padding: 15px;
+  padding: 30px;
 
   font-family: "Share Tech Mono", monospace;
 
@@ -157,3 +157,63 @@ a {
     background: url("ice-cream-fail.jpg") left bottom;
     background-size: cover;
 }
+
+.Submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    height: 45px;
+    width: 100px;
+  
+    background: #fa4141;
+  
+    border-radius: 22px;
+  
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  
+    text-transform: capitalize;
+  
+    border-bottom: var(--ui-shadow-border);
+    box-shadow: var(--ui-shadow);
+}
+
+.Input {
+    background: white;
+    padding: 30px;
+    border-bottom: var(--ui-shadow-border);
+    box-shadow: var(--ui-shadow);
+    align-self: center ;
+    vertical-align: middle;
+    margin-bottom: 300;
+  }
+  
+  .Input > .Title {
+    padding-bottom: 20px;
+  }
+  
+  .Input > .Details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5em;
+  }
+
+   /* Input styles */
+
+  input[type="text"] {
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 100%;
+    padding: 0 1.6rem;
+    appearance: none; 
+    transition: all var(--dur) var(--bez);
+    transition-property: width, border-radius;
+    z-index: 1;
+    position: relative;
+    height: var(--height);
+    font-size: 1.8rem;
+
+  }
+  
