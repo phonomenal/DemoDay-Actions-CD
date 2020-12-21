@@ -7,6 +7,7 @@
 const express = require("express");
 var bodyParser = require('body-parser')
 const path = require("path");
+const { Octokit } = require("@octokit/rest");
 
 /**
  * App Variables
@@ -47,12 +48,11 @@ app.get('*', function(req, res){
     res.render(path.join(__dirname + '/views/404.pug'));
 });
 
-app.post('/user', (req, res) => {
+app.post('/user', async (req, res) => {
     const username = req.body.username
     //...
-    res.render("user", { title: "Profile", userProfile: { nickname: username, title: "Solutions Engineer", company: "GitHub" } });
-
-//    res.end()
+    var userData = await getUser(username)
+    res.render("user", { title: "Profile", userProfile: { handle: username, GitHub_Profile: userData} });
   })
 
 /**
@@ -62,3 +62,29 @@ app.post('/user', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
   });
+
+
+/**
+ * Business Logic
+ */
+
+const octokit = new Octokit();
+
+async function getUser(userHandle)
+{
+    try
+    {
+       const { data: user } = await octokit.users.getByUsername({
+            username: userHandle
+        })
+        return user;
+        // .then(({ user }) => {
+        //     return user
+        // });
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+}
+
