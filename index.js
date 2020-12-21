@@ -5,6 +5,7 @@
  */
 
 const express = require("express");
+var bodyParser = require('body-parser')
 const path = require("path");
 
 /**
@@ -14,6 +15,7 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || "8000";
 
+
 /**
  *  App Configuration
  */
@@ -21,6 +23,10 @@ const port = process.env.PORT || "8000";
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
+
+var jsonParser = bodyParser.json()
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 /**
  * Routes Definitions
@@ -37,6 +43,14 @@ app.get("/user", (req, res) => {
 app.get('*', function(req, res){
     res.render(path.join(__dirname + '/views/404.pug'));
 });
+
+app.post('/user', jsonParser, (req, res) => {
+    const username = req.body.username
+    //...
+    res.render("user", { title: "Profile", userProfile: { nickname: username, title: "Solutions Engineer", company: "GitHub" } });
+
+//    res.end()
+  })
 
 /**
  * Server Activation
