@@ -24,8 +24,11 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
 
-var jsonParser = bodyParser.json()
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 
 /**
@@ -44,7 +47,7 @@ app.get('*', function(req, res){
     res.render(path.join(__dirname + '/views/404.pug'));
 });
 
-app.post('/user', jsonParser, (req, res) => {
+app.post('/user', (req, res) => {
     const username = req.body.username
     //...
     res.render("user", { title: "Profile", userProfile: { nickname: username, title: "Solutions Engineer", company: "GitHub" } });
