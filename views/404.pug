@@ -3,8 +3,9 @@ extends layout
 block layout-content
   div.View.ErrorView
     h1.Banner RESOURCE NOT FOUND 
-    body
-      h2.Banner #{error}
+    if error
+      body
+        h2.Banner #{error}
     div.NavButtons
       a(href="/")
         div.NavButton Home
