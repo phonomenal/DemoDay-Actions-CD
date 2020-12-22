@@ -70,27 +70,26 @@ app.post('/user', async (req, res) => {
 app.get('/user/:handle', async (req, res) => {
     console.log("GET - requesting user handle: " + req.params.handle)
 
-    try
+
+    var username = req.params.handle
+    
+    var userData = await getUser(username, res)
+    
+    if (userData)
     {
-        var username = req.params.handle
-        //...
-        var userData = await getUser(username)
-        
         var user_created_at = userData.created_at
 
         var created_at_dateFormat = user_created_at.split('T')
         var dateFormatted = created_at_dateFormat[0]
 
-        res.render("user", { title: "Profile", userProfile: 
+        res.render("user", { title: userData.login, userProfile: 
         { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url, 
             company: userData.company, location: userData.location, created_at: dateFormatted} });
     }
-    catch(error) 
-    {
-        res.render(path.join(__dirname + '/views/404.pug'), {error: error});
-    }
+
 })
 
+//404 not found when no match - included at the end of all routes
 app.get('*', function(req, res){
     res.render(path.join(__dirname + '/views/404.pug'));
 });
@@ -110,7 +109,7 @@ app.listen(port, () => {
 
 const octokit = new Octokit();
 
-async function getUser(userHandle)
+async function getUser(userHandle, res)
 {
     try
     {
@@ -124,7 +123,10 @@ async function getUser(userHandle)
     }
     catch(error)
     {
-        console.log(error)
+        var errorMessage = `For get user request ${userHandle} - ${error} / ${error.code}`
+        res.render(path.join(__dirname + '/views/404.pug'), {error: errorMessage});
+        console.log(errorMessage)
+        console.log('error code: ' + error.code)
     }
 }
 
