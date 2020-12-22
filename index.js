@@ -91,9 +91,9 @@ app.get('/user/:handle', async (req, res) => {
     }
 })
 
-// app.get('*', function(req, res){
-//     res.render(path.join(__dirname + '/views/404.pug'));
-// });
+app.get('*', function(req, res){
+    res.render(path.join(__dirname + '/views/404.pug'));
+});
 
 /**
  * Server Activation
