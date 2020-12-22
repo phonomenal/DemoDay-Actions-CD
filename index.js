@@ -129,8 +129,13 @@ async function getUser(userHandle, res)
     }
 }
 
+function stop()
+{
+    app.port.clo
+}
 
 /**
  * Module Exports
  */
 module.exports = { getUser };
+

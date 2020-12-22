@@ -1,5 +1,6 @@
 const { doesNotMatch } = require('assert');
 const assert = require('assert');
+const { exit } = require('process');
 const Index = require('../index.js')
 
 describe('Validate Get User', () => {
@@ -12,3 +13,9 @@ describe('Validate Get User', () => {
         assert(userData);
      });
 });
+
+after(async () => {  
+    console.log('Tests finished - exiting process...')
+    process.exit()
+  })
+//process.exit();
