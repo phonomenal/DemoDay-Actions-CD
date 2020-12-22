@@ -123,10 +123,14 @@ async function getUser(userHandle, res)
     }
     catch(error)
     {
-        var errorMessage = `For get user request ${userHandle} - ${error} / ${error.code}`
+        var errorMessage = `For get user request ${userHandle} - ${error} - ${error.status}`
         res.render(path.join(__dirname + '/views/404.pug'), {error: errorMessage});
         console.log(errorMessage)
-        console.log('error code: ' + error.code)
     }
 }
 
+
+/**
+ * Module Exports
+ */
+module.exports = { getUser };
