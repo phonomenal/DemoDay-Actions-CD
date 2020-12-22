@@ -40,27 +40,31 @@ app.get("/", (req, res) => {
     res.render("index", { title: "Home" });
   });
 
-app.get("/user", (req, res) => {
-  res.render("user", { title: "Profile", userProfile: { nickname: "James", title: "Solutions Engineer", company: "GitHub" } });
-});
-
 app.get('*', function(req, res){
     res.render(path.join(__dirname + '/views/404.pug'));
 });
 
 app.post('/user', async (req, res) => {
-    const username = req.body.username
-    //...
-    var userData = await getUser(username)
-    
-    var user_created_at = userData.created_at
 
-    var created_at_dateFormat = user_created_at.split('T')
-    var dateFormatted = created_at_dateFormat[0]
+    try
+    {
+        const username = req.body.username
+        //...
+        var userData = await getUser(username)
+        
+        var user_created_at = userData.created_at
 
-    res.render("user", { title: "Profile", userProfile: 
-    { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url, 
-         company: userData.company, location: userData.location, created_at: dateFormatted} });
+        var created_at_dateFormat = user_created_at.split('T')
+        var dateFormatted = created_at_dateFormat[0]
+
+        res.render("user", { title: "Profile", userProfile: 
+        { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url, 
+            company: userData.company, location: userData.location, created_at: dateFormatted} });
+    }
+    catch(error) 
+    {
+        res.render(path.join(__dirname + '/views/404.pug'), {error: error});
+    }
   })
 
 /**
