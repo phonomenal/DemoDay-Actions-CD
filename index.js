@@ -40,15 +40,39 @@ app.get("/", (req, res) => {
     res.render("index", { title: "Home" });
   });
 
-app.get('*', function(req, res){
-    res.render(path.join(__dirname + '/views/404.pug'));
-});
+
 
 app.post('/user', async (req, res) => {
 
+    // try
+    // {
+    //     const username = req.body.username
+    //     //...
+    //     var userData = await getUser(username)
+        
+    //     var user_created_at = userData.created_at
+
+    //     var created_at_dateFormat = user_created_at.split('T')
+    //     var dateFormatted = created_at_dateFormat[0]
+
+    //     res.render("user", { title: "Profile", userProfile: 
+    //     { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url, 
+    //         company: userData.company, location: userData.location, created_at: dateFormatted} });
+    // }
+    // catch(error) 
+    // {
+    //     res.render(path.join(__dirname + '/views/404.pug'), {error: error});
+    // }
+
+    res.redirect(303, '/user/' + req.body.username)
+})
+
+app.get('/user/:handle', async (req, res) => {
+    console.log("GET - requesting user handle: " + req.params.handle)
+
     try
     {
-        const username = req.body.username
+        var username = req.params.handle
         //...
         var userData = await getUser(username)
         
@@ -65,7 +89,11 @@ app.post('/user', async (req, res) => {
     {
         res.render(path.join(__dirname + '/views/404.pug'), {error: error});
     }
-  })
+})
+
+// app.get('*', function(req, res){
+//     res.render(path.join(__dirname + '/views/404.pug'));
+// });
 
 /**
  * Server Activation
