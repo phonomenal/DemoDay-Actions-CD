@@ -91,7 +91,7 @@ app.get('/user/:handle', async (req, res) => {
 
 //404 not found when no match - included at the end of all routes
 app.get('*', function(req, res){
-    res.render(path.join(__dirname + '/views/404.pug'));
+    res.render(path.join(__dirname + '/views/404.pug'), {error: 'Page Not Found'});
 });
 
 /**

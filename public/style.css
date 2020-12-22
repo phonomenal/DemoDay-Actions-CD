@@ -91,6 +91,28 @@ a {
   padding: 30px;
 
   font-family: "Share Tech Mono", monospace;
+  font-size: 60px;
+
+  border-bottom: var(--ui-shadow-border);
+  box-shadow: var(--ui-shadow);
+}
+
+.BannerMid {
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  border-radius: 5px;
+
+  overflow: hidden;
+  background: white;
+  padding: 30px;
+
+  font-family: "Share Tech Mono", monospace;
+  font-size: 40px;
 
   border-bottom: var(--ui-shadow-border);
   box-shadow: var(--ui-shadow);
