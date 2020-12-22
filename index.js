@@ -52,7 +52,15 @@ app.post('/user', async (req, res) => {
     const username = req.body.username
     //...
     var userData = await getUser(username)
-    res.render("user", { title: "Profile", userProfile: { handle: username, GitHub_Profile: userData} });
+    
+    var user_created_at = userData.created_at
+
+    var created_at_dateFormat = user_created_at.split('T')
+    var dateFormatted = created_at_dateFormat[0]
+
+    res.render("user", { title: "Profile", userProfile: 
+    { handle: userData.login, avatar_url: userData.avatar_url, bio: userData.bio, html_url: userData.html_url, 
+         company: userData.company, location: userData.location, created_at: dateFormatted} });
   })
 
 /**

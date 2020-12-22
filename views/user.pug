@@ -2,12 +2,40 @@ extends layout
 
 block layout-content
   div.View.UserView
-    h1.Banner Howdy, #{userProfile.handle}!
+    h1.Banner Welcome, #{userProfile.handle}!
     div.Message
       div.Title
         h3 Making Us the Best
         h1 Teammate Profile
-      pre.Details=JSON.stringify(userProfile, null, 2)
+        img.AvatarImage(src=userProfile.avatar_url)
+      table(style='width:100%', border='1')
+        tr
+          td #[strong handle]
+          td #{userProfile.handle}
+        tr
+          td #[strong profile]
+          td 
+            a(href=userProfile.html_url) #{userProfile.html_url}
+        if userProfile.bio
+          tr
+            td #[strong bio]
+            td #{userProfile.bio}
+        if userProfile.company
+          tr
+            td #[strong company ]
+            td #{userProfile.company}
+        if userProfile.location
+          tr
+            td #[strong location ]
+            td #{userProfile.location}
+        if userProfile.created_at
+          tr
+            td #[strong join date ]
+            td #{userProfile.created_at}
+    div
+    div
+    div
+    div
     div.NavButtons
-      a(href="/logout")
-        div.NavButton Log out
+      a(href="/")
+        div.NavButton Home
