@@ -53,6 +53,7 @@ jobs:
       url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.sandbox.net/"
     
     steps:
+    - uses: actions/checkout@main
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
