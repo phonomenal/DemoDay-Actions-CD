@@ -18,6 +18,9 @@
 on:
   release:
     types: [created]
+  pull_request:
+    branches:
+      - main
 
 env:
   AZURE_WEBAPP_NAME: sandbox-Application-Phonomenal-2020   # set this to your application's name
