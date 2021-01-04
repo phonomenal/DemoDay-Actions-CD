@@ -25,7 +25,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: sandbox-Application-Phonomenal-2020   # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.x'                # set this to the node version to use
+  #NODE_VERSION: '14.x'                # set this to the node version to use
 
 jobs:
   # build-and-test:
@@ -65,13 +65,17 @@ jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: ['10.x', '12.x', '14.x']
     
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ env.NODE_VERSION }}
+        node-version: ${{ matrix.node }}
     - name: npm install, build, and test
       run: |
         # Build and test the project
