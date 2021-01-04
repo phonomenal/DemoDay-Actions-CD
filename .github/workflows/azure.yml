@@ -93,9 +93,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install
-      run: |
-        npm install
+    # - name: npm install
+    #   run: |
+    #     npm install
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
