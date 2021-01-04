@@ -31,6 +31,9 @@ jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: SANDBOX
+      url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.net/"
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
