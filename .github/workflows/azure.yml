@@ -88,14 +88,14 @@ jobs:
       url: "http://sandbox-application-phonomenal-2020-sandbox.azurewebsites.net/"
     
     steps:
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install and build
+    - name: npm install
       run: |
         npm install
-        npm run build
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
@@ -113,14 +113,14 @@ jobs:
       url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.net/"
     
     steps:
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install and build
+    - name: npm install
       run: |
         npm install
-        npm run build
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
