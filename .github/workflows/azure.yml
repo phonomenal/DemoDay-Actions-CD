@@ -65,9 +65,6 @@ jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
-    environment:
-      name: SANDBOX
-      url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.sandbox.net/"
     
     steps:
     - uses: actions/checkout@v2
@@ -88,16 +85,17 @@ jobs:
     needs: build-and-test
     environment:
       name: SANDBOX
-      url: "https://sandbox-Application-Phonomenal-2020.sandbox.azurewebsites.net/"
+      url: "http://sandbox-application-phonomenal-2020-sandbox.azurewebsites.net/"
     
     steps:
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install
+    - name: npm install and build
       run: |
         npm install
+        npm run build
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
@@ -119,9 +117,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install
+    - name: npm install and build
       run: |
         npm install
+        npm run build
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
