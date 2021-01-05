@@ -1,18 +1,18 @@
-const { doesNotMatch } = require('assert');
-const assert = require('assert');
-const { exit } = require('process');
+const { doesNotMatch } = require('assert')
+const assert = require('assert')
+const { exit } = require('process')
 const Index = require('../index.js')
 
 describe('Validate Get User', () => {
- it('Should return a valid user - james-leha', async () => {
-       let userData = await Index.getUser('james-leha');
-       assert(userData);
-    });
- it('Should return a valid user - izzyco', async () => {
-        let userData = await Index.getUser('izzyco');
-        assert(userData);
-     });
-});
+  it('Should return a valid user - james-leha', async () => {
+    const userData = await Index.getUser('james-leha')
+    assert(userData)
+  })
+  it('Should return a valid user - izzyco', async () => {
+    const userData = await Index.getUser('izzyco')
+    assert(userData)
+  })
+})
 
 // describe('Return 404 Page', () => {
 //    it('Should return an invalid user - james-doesnotmakesense010101', async () => {
@@ -34,8 +34,8 @@ describe('Validate Get User', () => {
 //       });
 //   });
 
-after(async () => {  
-    console.log('Test(s) finished - exiting process...')
-    process.exit()
-  })
-//process.exit();
+after(async () => {
+  console.log('Test(s) finished - exiting process...')
+  process.exit()
+})
+// process.exit();
