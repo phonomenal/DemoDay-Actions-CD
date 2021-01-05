@@ -5,5 +5,5 @@ module.exports = {
   reloadDelay: 10,
   ui: false,
   notify: false,
-  port: 3000,
+  port: 3000
 };
