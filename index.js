@@ -84,8 +84,8 @@ app.get("/user/:handle", async (req, res) => {
         html_url: userData.html_url,
         company: userData.company,
         location: userData.location,
-        created_at: dateFormatted
-      }
+        created_at: dateFormatted,
+      },
     });
   }
 });
@@ -113,7 +113,7 @@ const octokit = new Octokit();
 async function getUser(userHandle, res) {
   try {
     const { data: user } = await octokit.users.getByUsername({
-      username: userHandle
+      username: userHandle,
     });
     return user;
     // .then(({ user }) => {
