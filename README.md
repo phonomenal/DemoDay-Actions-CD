@@ -1,5 +1,7 @@
 # Intro
+
 ### Background / Setup
+
 Using this guide heavily: https://auth0.com/blog/create-a-simple-and-stylish-node-express-app/
 
 ### Reference Guides

@@ -2,12 +2,21 @@ extends layout
 
 block layout-content
   div.View.WelcomeView
-    h1.Banner PHONOMENAL
-    div.Message
-      div.Title
-        h3 Making the Best
-        h1 Samples For Devs
-      span.Details Access the PHONOMENAL Team Portal
-    div.NavButtons
-      a(href="/user")
-        div.NavButton Just dive in!
+    h1.Banner PHONOMENAL DEVS
+    body
+        div.Input
+            div.Title
+            h3 Who are you?
+            h1 Show us what you got
+            |&nbsp;
+            h3 GitHub Handle:
+            form(action="/user", method="POST")
+                div.input
+                    input(type="text", name="username")
+                |&nbsp;
+                div
+                    input(type="submit", value="GO").Submit
+        div
+        div
+        div
+        div

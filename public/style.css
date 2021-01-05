@@ -88,9 +88,31 @@ a {
 
   overflow: hidden;
   background: white;
-  padding: 15px;
+  padding: 30px;
 
   font-family: "Share Tech Mono", monospace;
+  font-size: 60px;
+
+  border-bottom: var(--ui-shadow-border);
+  box-shadow: var(--ui-shadow);
+}
+
+.BannerMid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  border-radius: 5px;
+
+  overflow: hidden;
+  background: white;
+  padding: 30px;
+
+  font-family: "Share Tech Mono", monospace;
+  font-size: 40px;
 
   border-bottom: var(--ui-shadow-border);
   box-shadow: var(--ui-shadow);
@@ -144,7 +166,7 @@ a {
 }
 
 .WelcomeView {
-    background: url("food.jpg") left bottom;
+    background: url("keyboard.jpg") left bottom;
     background-size: cover;
   }
 
@@ -157,3 +179,104 @@ a {
     background: url("ice-cream-fail.jpg") left bottom;
     background-size: cover;
 }
+
+.Submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    height: 45px;
+    width: 100px;
+  
+    background: #fa4141;
+  
+    border-radius: 22px;
+  
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  
+    text-transform: capitalize;
+  
+    border-bottom: var(--ui-shadow-border);
+    box-shadow: var(--ui-shadow);
+}
+
+.Input {
+    background: white;
+    padding: 30px;
+    border-bottom: var(--ui-shadow-border);
+    box-shadow: var(--ui-shadow);
+    align-self: center ;
+    vertical-align: middle;
+    margin-bottom: 300;
+  }
+  
+  .Input > .Title {
+    padding-bottom: 20px;
+  }
+  
+  .Input > .Details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5em;
+  }
+
+   /* Input styles */
+
+  input[type="text"] {
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 100%;
+    padding: 0 1.6rem;
+    appearance: none; 
+    transition: all var(--dur) var(--bez);
+    transition-property: width, border-radius;
+    z-index: 1;
+    position: relative;
+    height: var(--height);
+    font-size: 1.8rem;
+  }
+  
+  .AvatarImage {
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+    border-bottom: var(--ui-shadow-border);
+    box-shadow: var(--ui-shadow);
+    align-self: center ;
+    vertical-align: middle;
+    height: auto; 
+    width: auto; 
+    max-width: 250px; 
+    max-height: 250px;
+  }
+
+  table {
+    background: #221c02;
+    border-radius: 0.25em;
+    border-collapse: collapse;
+    margin: 1em;
+  }
+  th {
+    border-bottom: 1px solid #233e46;
+    color: #E2B842;
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 0.5em 1em;
+    text-align: left;
+  }
+  td {
+    color: #fff;
+    font-weight: 400;
+    padding: 0.65em 1em;
+  }
+  .disabled td {
+    color: #4F5F64;
+  }
+  tbody tr {
+    transition: background 0.25s ease;
+  }
+  tbody tr:hover {
+    background: #014055;
+  }
