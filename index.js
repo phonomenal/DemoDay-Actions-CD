@@ -93,7 +93,8 @@ app.get('/user/:handle', async (req, res) => {
 
 // 404 not found when no match - included at the end of all routes
 app.get('*', function (req, res) {
-  res.render(path.join(__dirname + '/views/404.pug'), { error: 'Page Not Found' })
+  const errorPath = path.join(__dirname, '/views/404.pug')
+  res.render(errorPath, { error: 'Page Not Found' })
 })
 
 /**
@@ -121,10 +122,9 @@ async function getUser (userHandle, res) {
     // });
   } catch (error) {
     const errorMessage = `Get user request: ${userHandle} - ${error} - ${error.status}`
-    let errorPagePath = __dirname + '/views/404.pug'
-    res.render(path.join(errorPagePath), { error: errorMessage })
+    const errorPagePath = path.join(__dirname, '/views/404.pug')
+    res.render(errorPagePath, { error: errorMessage })
     console.log(errorMessage)
-    return errorMessage;
   }
 }
 
