@@ -30,7 +30,7 @@ env:
 jobs:
   
   build-and-test:
-    name: Build and Test
+    name: 🧪 Build and Test
     runs-on: ubuntu-latest
 
     strategy:
@@ -50,8 +50,8 @@ jobs:
         npm run build --if-present
         npm run test --if-present
 
-  ESLint:
-    name: Lint Code Base
+  Linter:
+    name: 🧹 Lint Code Base
     # Set the agent to run on
     runs-on: ubuntu-latest
     needs: build-and-test
@@ -79,9 +79,26 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CSS: false
+  prettier:
+    name: 🧹 prettier
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        # Make sure the actual branch is checked out when running on pull requests
+        ref: ${{ github.head_ref }}
+
+    - name: Prettify code
+      uses: creyD/prettier_action@v3.1
+      with:
+        # This part is also where you can pass other options, for example:
+        prettier_options: --write **/*.{js,md}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   webapp-deploy-sandbox:
-    name: Webapp Deploy - Sandbox
+    name: 📦 Webapp Deploy - Sandbox
     runs-on: ubuntu-latest
     needs: build-and-test
     environment:
@@ -106,7 +123,7 @@ jobs:
         slot-name: sandbox
   
   validate-site:
-    name: Validate Deployment
+    name: ✅ Validate Deployment
     runs-on: ubuntu-latest
     needs: webapp-deploy-sandbox
 
@@ -115,7 +132,7 @@ jobs:
       uses: jtalk/url-health-check-action@v1.2
       with:
         # Check the following URLs one by one sequentially
-        url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/user/james-leha|
         # Follow redirects, or just report success on 3xx status codes
         follow-redirect: no # Optional, defaults to "no"
         # Fail this action after this many failed attempts
@@ -124,9 +141,9 @@ jobs:
         retry-delay: 5s # Optional, only applicable to max-attempts > 1
 
   webapp-deploy-production:
-    name: Webapp Deploy - Production
+    name: 📦 Webapp Deploy - Production
     runs-on: ubuntu-latest
-    needs: [webapp-deploy-sandbox, validate-site, ESLint]
+    needs: [webapp-deploy-sandbox, validate-site, Linter, prettier]
     environment:
       name: PRODUCTION
       url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.net/"
