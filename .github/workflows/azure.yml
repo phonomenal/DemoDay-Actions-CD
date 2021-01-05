@@ -86,7 +86,7 @@ jobs:
     needs: build-and-test
     environment:
       name: SANDBOX
-      url: "http://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/"
+      url: "https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/"
     
     steps:
     - uses: actions/checkout@v2
@@ -106,7 +106,7 @@ jobs:
         slot-name: sandbox
   
   validate-site:
-    name: validate site url
+    name: Validate Deployment
     runs-on: ubuntu-latest
     needs: webapp-deploy-sandbox
 
@@ -115,7 +115,7 @@ jobs:
       uses: jtalk/url-health-check-action@v1.2
       with:
         # Check the following URLs one by one sequentially
-        url: http://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/
         # Follow redirects, or just report success on 3xx status codes
         follow-redirect: no # Optional, defaults to "no"
         # Fail this action after this many failed attempts
@@ -126,7 +126,7 @@ jobs:
   webapp-deploy-production:
     name: Webapp Deploy - Production
     runs-on: ubuntu-latest
-    needs: webapp-deploy-sandbox
+    needs: [webapp-deploy-sandbox, validate-site, ESLint]
     environment:
       name: PRODUCTION
       url: "https://sandbox-Application-Phonomenal-2020.azurewebsites.net/"
