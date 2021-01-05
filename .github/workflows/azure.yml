@@ -111,6 +111,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_CSS: false
 
   webapp-deploy-sandbox:
     name: Webapp Deploy - Sandbox

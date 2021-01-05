@@ -70,10 +70,10 @@ app.get('/user/:handle', async (req, res) => {
   const userData = await getUser(username, res)
 
   if (userData) {
-    const user_created_at = userData.created_at
+    const userCreatedAt = userData.created_at
 
-    const created_at_dateFormat = user_created_at.split('T')
-    const dateFormatted = created_at_dateFormat[0]
+    const createdDateFormat = userCreatedAt.split('T')
+    const dateFormatted = createdDateFormat[0]
 
     res.render('user', {
       title: userData.login,
@@ -113,7 +113,7 @@ const octokit = new Octokit()
 async function getUser (userHandle, res) {
   try {
     const { data: user } = await octokit.users.getByUsername({
-    username: userHandle
+      username: userHandle
     })
     return user
     // .then(({ user }) => {
@@ -121,13 +121,11 @@ async function getUser (userHandle, res) {
     // });
   } catch (error) {
     const errorMessage = `Get user request: ${userHandle} - ${error} - ${error.status}`
-    res.render(path.join(__dirname + '/views/404.pug'), { error: errorMessage })
+    let errorPagePath = __dirname + '/views/404.pug'
+    res.render(path.join(errorPagePath), { error: errorMessage })
     console.log(errorMessage)
+    return errorMessage;
   }
-}
-
-function stop () {
-  app.port.clo
 }
 
 /**
