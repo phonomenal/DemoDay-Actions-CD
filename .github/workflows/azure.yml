@@ -78,6 +78,9 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CSS: false
+          VALIDATE_MARKDOWN: false
+          JAVASCRIPT_DEFAULT_STYLE: prettier
+
   prettier:
     name: 🧹 prettier
     runs-on: ubuntu-latest
@@ -93,7 +96,7 @@ jobs:
       uses: creyD/prettier_action@v3.1
       with:
         # This part is also where you can pass other options, for example:
-        prettier_options: --write **/*.{js,md} --single-quote --trailing-comma <none> --no-semi
+        prettier_options: --write **/*.{js,md} --trailing-comma none
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
