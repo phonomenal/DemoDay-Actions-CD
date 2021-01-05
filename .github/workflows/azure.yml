@@ -144,7 +144,7 @@ jobs:
         retry-delay: 5s # Optional, only applicable to max-attempts > 1
 
   webapp-deploy-qa:
-    name: 📦 Webapp Deploy - Production
+    name: 📦 Webapp Deploy - QA
     runs-on: ubuntu-latest
     needs: [webapp-deploy-sandbox, validate-site, Linter, prettier]
     environment:
@@ -171,7 +171,7 @@ jobs:
   validate-site-qa:
     name: ✔️ Validate Deployment
     runs-on: ubuntu-latest
-    needs: webapp-deploy-production
+    needs: webapp-deploy-qa
 
     steps:
     - name: Check the deployed service URL
