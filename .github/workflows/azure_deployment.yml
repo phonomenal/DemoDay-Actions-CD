@@ -189,7 +189,7 @@ jobs:
   webapp-deploy-prod:
     name: 📦 Webapp Deploy - PROD
     runs-on: ubuntu-latest
-    needs: [build-and-test, prettier]
+    needs: [build-and-test, prettier, webapp-deploy-qa, webapp-deploy-sandbox, Linter]
     environment:
       name: PRODUCTION
       url: "https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/"
