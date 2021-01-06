@@ -1,0 +1,214 @@
+# This workflow will build and push a node.js application to an Azure Web App when a release is created.
+#
+# This workflow assumes you have already created the target Azure App Service web app.
+# For instructions see https://docs.microsoft.com/azure/app-service/app-service-plan-manage#create-an-app-service-plan
+#
+# To configure this workflow:
+#
+# 1. For Linux apps, add an app setting called WEBSITE_WEBDEPLOY_USE_SCM and set it to true in your app **before downloading the file**.
+#      For more instructions see: https://docs.microsoft.com/azure/app-service/configure-common#configure-app-settings
+#
+# 2. Set up a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE with the value of your Azure publish profile.
+#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
+#
+# 3. Change the values for the AZURE_WEBAPP_NAME, AZURE_WEBAPP_PACKAGE_PATH and NODE_VERSION environment variables  (below).
+#
+# For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
+on:
+  release:
+    types: [created]
+  # pull_request:
+  #   branches:
+  #     - main
+
+env:
+  AZURE_WEBAPP_NAME: sandbox-Application-Phonomenal-2020   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+
+jobs:
+  
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: ['10.x', '12.x', '14.x']
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: npm install, build, and test
+      run: |
+        # Build and test the project
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+
+  prettier:
+    name: prettier
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        # Make sure the actual branch is checked out when running on pull requests
+        ref: ${{ github.head_ref }}
+
+    - name: Prettify code
+      uses: creyD/prettier_action@v3.1
+      with:
+        # This part is also where you can pass other options, for example:
+        prettier_options: --write **/*.{js,md}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Linter:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    needs: [prettier, build-and-test]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      # Run Linter against code base #
+      - name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_CSS: false
+          VALIDATE_MARKDOWN: false
+          JAVASCRIPT_DEFAULT_STYLE: prettier
+
+  webapp-deploy-sandbox:
+    name: Webapp Deploy - Sandbox
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install
+      run: |
+        npm install
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        ## Specific Secret for this App Service Deployment Environment
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_SANDBOX }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: sandbox
+  
+  validate-site-sandbox:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-sandbox
+
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      with:
+        # Check the following URLs one by one sequentially
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/user/james-leha
+        # Follow redirects, or just report success on 3xx status codes
+        follow-redirect: no # Optional, defaults to "no"
+        # Fail this action after this many failed attempts
+        max-attempts: 3 # Optional, defaults to 1
+        # Delay between retries
+        retry-delay: 5s # Optional, only applicable to max-attempts > 1
+
+  webapp-deploy-qa:
+    name: Webapp Deploy - QA
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install
+      run: |
+        npm install
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        ## Specific Secret for this App Service Deployment Environment
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_QA }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: qa
+
+  validate-site-qa:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-qa
+
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      with:
+        # Check the following URLs one by one sequentially
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/user/james-leha
+        # Follow redirects, or just report success on 3xx status codes
+        follow-redirect: no # Optional, defaults to "no"
+        # Fail this action after this many failed attempts
+        max-attempts: 3 # Optional, defaults to 1
+        # Delay between retries
+        retry-delay: 5s # Optional, only applicable to max-attempts > 1
+
+  webapp-deploy-prod:
+    name: Webapp Deploy - PROD
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier, webapp-deploy-qa, webapp-deploy-sandbox, Linter, validate-site-qa, validate-site-sandbox]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install
+      run: |
+        npm install
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        ## Specific Secret for this App Service Deployment Environment
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD}}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: qa
+
+  validate-site-prod:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-prod
+
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      with:
+        # Check the following URLs one by one sequentially
+        url: https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/user/james-leha
+        # Follow redirects, or just report success on 3xx status codes
+        follow-redirect: no # Optional, defaults to "no"
+        # Fail this action after this many failed attempts
+        max-attempts: 3 # Optional, defaults to 1
+        # Delay between retries
+        retry-delay: 5s # Optional, only applicable to max-attempts > 1
