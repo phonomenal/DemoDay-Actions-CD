@@ -100,17 +100,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  webapp-deploy:
-    name: 📦 Webapp Deploy - ${{ matrix.env }}
+  webapp-deploy-sandbox:
+    name: 📦 Webapp Deploy - Sandbox
     runs-on: ubuntu-latest
     needs: [build-and-test, prettier]
     environment:
-      name: ${{ matrix.env }}
-      url: "https://${{ env.AZURE_WEBAPP_NAME }}-${{ matrix.env }}.azurewebsites.net/"
-
-    strategy:
-      matrix:
-        env: ['sandbox','qa']
+      name: SANDBOX
+      url: "https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/"
+    
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
@@ -126,76 +123,108 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        slot-name: ${{ matrix.env }}
+        slot-name: sandbox
+  
+  validate-site:
+    name: ✔️ Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-sandbox
+
+    steps:
     - name: Check the deployed service URL
       uses: jtalk/url-health-check-action@v1.2
       with:
         # Check the following URLs one by one sequentially
-        url: https://${{ env.AZURE_WEBAPP_NAME }}-${{ matrix.env }}.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-${{ matrix.env }}.azurewebsites.net/user/james-leha
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/user/james-leha
         # Follow redirects, or just report success on 3xx status codes
         follow-redirect: no # Optional, defaults to "no"
         # Fail this action after this many failed attempts
         max-attempts: 3 # Optional, defaults to 1
         # Delay between retries
         retry-delay: 5s # Optional, only applicable to max-attempts > 1
-  
-  # validate-site:
-  #   name: ✔️ Validate Deployment
-  #   runs-on: ubuntu-latest
-  #   needs: webapp-deploy-sandbox
 
-  #   steps:
-  #   - name: Check the deployed service URL
-  #     uses: jtalk/url-health-check-action@v1.2
-  #     with:
-  #       # Check the following URLs one by one sequentially
-  #       url: https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-sandbox.azurewebsites.net/user/james-leha
-  #       # Follow redirects, or just report success on 3xx status codes
-  #       follow-redirect: no # Optional, defaults to "no"
-  #       # Fail this action after this many failed attempts
-  #       max-attempts: 3 # Optional, defaults to 1
-  #       # Delay between retries
-  #       retry-delay: 5s # Optional, only applicable to max-attempts > 1
-
-  # webapp-deploy-qa:
-  #   name: 📦 Webapp Deploy - QA
-  #   runs-on: ubuntu-latest
-  #   needs: [webapp-deploy-sandbox, validate-site, Linter, prettier]
-  #   environment:
-  #     name: QA
-  #     url: "https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/"
+  webapp-deploy-qa:
+    name: 📦 Webapp Deploy - QA
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier]
+    environment:
+      name: QA
+      url: "https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/"
     
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js ${{ env.NODE_VERSION }}
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: ${{ env.NODE_VERSION }}
-  #   - name: npm install
-  #     run: |
-  #       npm install
-  #   - name: 'Deploy to Azure WebApp'
-  #     uses: azure/webapps-deploy@v2
-  #     with:
-  #       app-name: ${{ env.AZURE_WEBAPP_NAME }}
-  #       publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-  #       package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-  #       slot-name: qa
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install
+      run: |
+        npm install
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: qa
 
-  # validate-site-qa:
-  #   name: ✔️ Validate Deployment
-  #   runs-on: ubuntu-latest
-  #   needs: webapp-deploy-qa
+  validate-site-qa:
+    name: ✔️ Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-qa
 
-  #   steps:
-  #   - name: Check the deployed service URL
-  #     uses: jtalk/url-health-check-action@v1.2
-  #     with:
-  #       # Check the following URLs one by one sequentially
-  #       url: https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/user/james-leha
-  #       # Follow redirects, or just report success on 3xx status codes
-  #       follow-redirect: no # Optional, defaults to "no"
-  #       # Fail this action after this many failed attempts
-  #       max-attempts: 3 # Optional, defaults to 1
-  #       # Delay between retries
-  #       retry-delay: 5s # Optional, only applicable to max-attempts > 1
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      with:
+        # Check the following URLs one by one sequentially
+        url: https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}-qa.azurewebsites.net/user/james-leha
+        # Follow redirects, or just report success on 3xx status codes
+        follow-redirect: no # Optional, defaults to "no"
+        # Fail this action after this many failed attempts
+        max-attempts: 3 # Optional, defaults to 1
+        # Delay between retries
+        retry-delay: 5s # Optional, only applicable to max-attempts > 1
+
+  webapp-deploy-prod:
+    name: 📦 Webapp Deploy - PROD
+    runs-on: ubuntu-latest
+    needs: [build-and-test, prettier]
+    environment:
+      name: PRODUCTION
+      url: "https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/"
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install
+      run: |
+        npm install
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: qa
+
+  validate-site-prod:
+    name: ✔️ Validate Deployment
+    runs-on: ubuntu-latest
+    needs: webapp-deploy-prod
+
+    steps:
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      with:
+        # Check the following URLs one by one sequentially
+        url: https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/|https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/user/james-leha
+        # Follow redirects, or just report success on 3xx status codes
+        follow-redirect: no # Optional, defaults to "no"
+        # Fail this action after this many failed attempts
+        max-attempts: 3 # Optional, defaults to 1
+        # Delay between retries
+        retry-delay: 5s # Optional, only applicable to max-attempts > 1
