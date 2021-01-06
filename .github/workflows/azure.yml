@@ -100,7 +100,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  webapp-deploy-sandbox:
+  webapp-deploy:
     name: 📦 Webapp Deploy - ${{ matrix.env }}
     runs-on: ubuntu-latest
     needs: [build-and-test, prettier]
@@ -126,7 +126,7 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        slot-name: sandbox
+        slot-name: ${{ matrix.env }}
     - name: Check the deployed service URL
       uses: jtalk/url-health-check-action@v1.2
       with:
