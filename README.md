@@ -1,5 +1,7 @@
 # Intro
 
+**DO NOT** use in production. Known Axios vulnerability in [Browser Sync](https://github.com/BrowserSync/browser-sync/issues/1831).
+
 A demo node express app to show off GitHub Actions CD capabilities by deploying to an Azure App Service.
 
 This web app will allow you to search for any GitHub user by their handle!
