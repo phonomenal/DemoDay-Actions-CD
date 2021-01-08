@@ -10,9 +10,11 @@ This web app will allow you to search for any GitHub user by their handle!
 3. Download the Publish Profile for the respective deployment slots
 
 
+
 ## Run App Locally:
 
 1. Fork/Clone Repo
+2. Open in Codespaces or IDE of your choice
 2. `npm install`
 3. `npm run test`
 4. `npm run dev`
@@ -27,3 +29,4 @@ This web app will allow you to search for any GitHub user by their handle!
 - [Microsoft Docs - Deploy to App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel)
 
 - [Helpful Guide on createing a Node Express App](https://auth0.com/blog/create-a-simple-and-stylish-node-express-app/)
+
