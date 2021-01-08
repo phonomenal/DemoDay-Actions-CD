@@ -30,17 +30,13 @@ jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node: ['14.x']
     
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node }}
+        node-version: '14.x'
     - name: npm install, build, and test
       run: |
         # Build and test the project
