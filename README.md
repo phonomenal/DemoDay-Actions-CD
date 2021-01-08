@@ -28,7 +28,7 @@ This web app will allow you to search for any GitHub user by their handle!
 5. Check the Actions tab, Pull Request, and Environments page as the workflow runs!
 
 
-### Reference Material
+## Reference Material
 - [Environments - GitHub Docs](https://docs.github.com/en/free-pro-team@latest/actions/reference/environments)
 
 - [Using the visualization graph - GitHub Docs](https://docs.github.com/en/free-pro-team@latest/actions/managing-workflow-runs/using-the-visualization-graph)
@@ -40,3 +40,9 @@ This web app will allow you to search for any GitHub user by their handle!
 - [Continuous delivery with GitHub Actions - GitHub Universe 2020 YouTube](https://www.youtube.com/watch?v=36hY0-O4STg&t=10s&ab_channel=GitHub)
 
 - [Welcome to Codespaces - GitHub Universe 2020 YouTube](https://www.youtube.com/watch?v=j5VQ8OlwbqI&ab_channel=GitHub)
+
+## Feedback?
+Open a discussion thread in this repo!
+
+Participate in our Support Community for Code-to-Cloud: 
+- https://github.community/c/code-to-cloud/52
