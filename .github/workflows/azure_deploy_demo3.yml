@@ -18,8 +18,8 @@
 on:
   pull_request:
     branches:
-      # - main
-      - Do-Not-Run
+      - main
+      # - Do-Not-Run
 
 env:
   AZURE_WEBAPP_NAME: phonomenal-github  # set this to your application's name
