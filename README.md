@@ -21,7 +21,7 @@ This web app will allow you to search for any GitHub user by their handle!
 3. `npm run test`
 4. `npm run dev`
 
-## Triggering Azure Deployment
+## Triggering Actions for Azure Deployment
 
 1. Create a new branch
 2. Introduce new commits
