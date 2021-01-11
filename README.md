@@ -25,7 +25,7 @@ This web app will allow you to search for any GitHub user by their handle!
 
 1. Create a new branch
 2. Introduce new commits
-3. Comment the `on:` section of the workflow you wish to run to include the `main` branch
+3. Update the `on:` section of the workflow you wish to run to include the `main` branch
 4. Create a pull request to the main branch
 5. Check the Actions tab, Pull Request, and Environments page as the workflow runs!
 
