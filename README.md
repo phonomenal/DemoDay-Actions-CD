@@ -1,6 +1,6 @@
 # Intro
 
-**DO NOT** use in production. Known Axios vulnerability in [Browser Sync](https://github.com/BrowserSync/browser-sync/issues/1831).
+**NOT** intended for production use. For demonstration purposes only 😊 .
 
 A demo node express app to show off GitHub Actions CD capabilities by deploying to an Azure App Service.
 
