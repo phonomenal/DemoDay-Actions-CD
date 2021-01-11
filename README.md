@@ -6,7 +6,7 @@ A demo node express app to show off GitHub Actions CD capabilities by deploying 
 
 This web app will allow you to search for any GitHub user by their handle!
 
-Part of the GitHub Demo Day series! View Youtube recording [here](https://www.youtube.com/watch?v=pfnGHNYQcg0&ab_channel=GitHub)
+Part of the GitHub Demo Day series! View Youtube recording [here](https://www.youtube.com/watch?v=pfnGHNYQcg0&ab_channel=GitHub) for a step-by-step walkthrough.
 
 ## Setup
 1. Create an Azure App Service and App Service Plan to host your node express app
