@@ -27,8 +27,10 @@ Part of the GitHub Demo Day series! View Youtube recording [here](https://www.yo
 
 1. Create a new branch
 2. Introduce new commits
-3. Update the `on:` section of the workflow you wish to run to include the `main` branch
+3. For the specific .yml workflow to run, update the comments in the `on:` section to include the `main` branch
     - ![main-branch](.github/img/workflow_on_main.png)
+    - ![main-branch-comment](.github/img/workflow_on_main_included.png)
+
 4. Create a pull request to the main branch
 5. Check the Actions tab, Pull Request, and Environments page as the workflow runs!
 
