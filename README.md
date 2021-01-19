@@ -10,10 +10,11 @@ Part of the GitHub Demo Day series! View Youtube recording [here](https://www.yo
 
 ## Setup
 1. Create an Azure App Service and App Service Plan to host your node express app
-2. Create deployment slots in the App Service for your different enviroments
-3. Download the Publish Profile for the respective deployment slots
-4. Update `github/workflows` files with the correct `AZURE_WEBAPP_NAME`
-5. Create environments secret `AZURE_WEBAPP_PUBLISH_PROFILE`  for the correlating environments defined  
+2. Under the App Service -> Settings: Configuration -> Set the Application Setting: `WEBSITE_NODE_DEFAULT_VERSION` to `10.0.0`
+3. Create deployment slots in the App Service for your different enviroments
+4. Download the Publish Profile for the respective deployment slots
+5. Update `github/workflows` files with the correct `AZURE_WEBAPP_NAME`
+6. Create environments secret `AZURE_WEBAPP_PUBLISH_PROFILE`  for the correlating environments defined  
 
 ## Run App Locally:
 
