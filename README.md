@@ -45,7 +45,7 @@ Part of the GitHub Demo Day series! View Youtube recording [here](https://www.yo
 
 - [Deploy to App Service using GitHub Actions - Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel)
 
-- [Helpful Guide on createing a Node Express App](https://auth0.com/blog/create-a-simple-and-stylish-node-express-app/)
+- [Helpful Guide on creating a Node Express App](https://auth0.com/blog/create-a-simple-and-stylish-node-express-app/)
 
 - [Continuous delivery with GitHub Actions - GitHub Universe 2020 YouTube](https://www.youtube.com/watch?v=36hY0-O4STg&t=10s&ab_channel=GitHub)
 
