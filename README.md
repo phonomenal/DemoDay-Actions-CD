@@ -1,6 +1,6 @@
 # Intro
 
-[![Git](https://app.soluble.cloud/api/v1/public/badges/b75cb21d-7215-473b-86d2-3a7426cdf139.svg?orgId=650162616495)](https://app.soluble.cloud/repos/details/github.com/james-leha/demoday-actions-cd?orgId=650162616495)  
+[![Git](https://app.soluble.cloud/api/v1/public/badges/b75cb21d-7215-473b-86d2-3a7426cdf139.svg?orgId=650162616495)](https://app.soluble.cloud/repos/details/github.com/james-leha/demoday-actions-cd?orgId=650162616495)
 
 **NOT** intended for production use. For demonstration purposes only 😊 .
 
